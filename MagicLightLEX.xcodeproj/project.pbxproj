@@ -26,6 +26,7 @@
 		AE7134B41E179408001A9A7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE7134BA1E17951D001A9A7C /* MyWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyWindowController.swift; sourceTree = "<group>"; };
 		AE7134BE1E17AF14001A9A7C /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Device.swift; path = ../Device.swift; sourceTree = "<group>"; };
+		AE90EECC1E1B57DB001F17DA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +43,7 @@
 		AE71349F1E179408001A9A7C = {
 			isa = PBXGroup;
 			children = (
+				AE90EECC1E1B57DB001F17DA /* README.md */,
 				AE7134AA1E179408001A9A7C /* MagicLightLEX */,
 				AE7134A91E179408001A9A7C /* Products */,
 			);

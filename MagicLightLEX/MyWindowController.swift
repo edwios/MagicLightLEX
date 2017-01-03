@@ -85,12 +85,7 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
     }
 
     func windowWillClose(_ notification: Notification) {
-        if (scanTimer != nil) {
-            scanTimer?.invalidate()
-            scanTimer = nil
-        }
-        self.disconnect()
-        NSApplication.shared().terminate(self)
+        quitButtonTouched(self)
     }
     
     // MARK: - Setting output
@@ -131,6 +126,15 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
     
     @IBAction func colorPicked(_ sender: Any) {
         setLEDColor((sender as! NSColorPickerTouchBarItem).color)
+    }
+    
+    @IBAction func quitButtonTouched(_ sender: Any) {
+        if (scanTimer != nil) {
+            scanTimer?.invalidate()
+            scanTimer = nil
+        }
+        self.disconnect()
+        NSApplication.shared().terminate(self)
     }
     
     // MARK: - Handling User Interaction
