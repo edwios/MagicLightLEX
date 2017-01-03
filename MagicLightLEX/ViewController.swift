@@ -8,7 +8,10 @@
 
 import Cocoa
 
+
+@available(OSX 10.12.2, *)
 class ViewController: NSViewController {
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,6 @@ class ViewController: NSViewController {
         }
     }
 
-
+    
 }
 
