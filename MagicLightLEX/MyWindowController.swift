@@ -45,10 +45,9 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
     // MARK: Local variables
     let debug = false
     var keepScanning = false
-    // define our scanning interval times
-    let timerPauseInterval:TimeInterval = 10.0
-    let timerScanInterval:TimeInterval = 10.0
     
+    // define our scanning timers
+    let timerScanInterval:TimeInterval = 10.0
     var scanTimer:Timer? = nil
     
     var LEDConnected = false
@@ -63,14 +62,11 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
     var ledcolorCharacteristic:CBCharacteristic?
     var ledcolorPeripheral:CBPeripheral?
     var ledcolorDescriptor:CBDescriptor?
-    
-    // Be careful, the advertised name may be the Short name.
-    let blePeripheralName = "MagicLi"
 
     // MARK: - IB Items
     
     @IBOutlet weak var scanButton: NSButton!
-    
+    @IBOutlet weak var colorPicker: NSColorPickerTouchBarItem!
     @IBOutlet weak var messageOnTouchBar: NSTextField!
     
     // MARK: - Window Loaded
@@ -82,6 +78,7 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
         centralManager = CBCentralManager(delegate: self, queue: nil)
         self.messageOnTouchBar.stringValue = "Loading"
         self.window?.delegate = self
+        self.colorPicker.isEnabled = false
     }
 
     func windowWillClose(_ notification: Notification) {
@@ -90,13 +87,18 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
     
     // MARK: - Setting output
     
-    func setTouchBarMessage(_ message: String?) {
+    func setTouchBarMessage(_ message: String?, color: NSColor?) {
         if (self.messageOnTouchBar != nil) {
             if let m = message {
                 self.messageOnTouchBar.stringValue = m
             } else {
                 self.messageOnTouchBar.stringValue = "Default"
             }
+        }
+        if (color == nil) {
+            self.messageOnTouchBar.textColor = NSColor.lightGray
+        } else {
+            self.messageOnTouchBar.textColor = color
         }
     }
 
@@ -113,7 +115,7 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
                 dataArray[2] = UInt8((rgb! & 0x0000FF00) >> 8)
                 dataArray[3] = UInt8((rgb! & 0x000000FF))
                 let data = Data.init(bytes:dataArray)
-                ledcolorPeripheral?.writeValue(data, for: ledcolorCharacteristic!, type: CBCharacteristicWriteType.withResponse)
+                self.ledcolorPeripheral?.writeValue(data, for: self.ledcolorCharacteristic!, type: CBCharacteristicWriteType.withResponse)
             }
         }
     }
@@ -155,8 +157,9 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
         if (debug) {print("DEBUG: Disconnect")}
         if let blePeripheral = self.blePeripheral {
             LEDConnected = false
-            ledcolorCharacteristic = nil
-            ledcolorPeripheral = nil
+            self.colorPicker.isEnabled = false
+            self.ledcolorCharacteristic = nil
+            self.ledcolorPeripheral = nil
             self.centralManager.cancelPeripheralConnection(blePeripheral)
         }
     }
@@ -166,23 +169,23 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
     func pauseScan() {
         // Scanning uses up battery on phone, so pause the scan process for the designated interval.
         if (debug) {print("DEBUG: PAUSING SCAN...")}
-        setTouchBarMessage("Stopped")
+        setTouchBarMessage("Stopped", color: nil)
+
         scanTimer = nil
         self.centralManager.stopScan()
     }
     
     func resumeScan() {
-        print("resumeScane \(self.keepScanning)")
         if keepScanning {
             // Start scanning again...
             if (debug) {print("DEBUG: RESUMING SCAN!")}
-            setTouchBarMessage("Scanning...")
+            setTouchBarMessage("Scanning...", color: NSColor.blue)
             if (scanTimer == nil) {
                 scanTimer = Timer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
                 RunLoop.main.add(scanTimer!, forMode: RunLoopMode.commonModes)
             }
-            // let blePeripheralAdvertisingUUID = CBUUID(string: Device.MagicLightServiceUUID)
-            self.centralManager.scanForPeripherals(withServices: [], options: nil)
+            let blePeripheralAdvertisingUUID = CBUUID(string: Device.MagicLightServiceUUID)
+            self.centralManager.scanForPeripherals(withServices: [blePeripheralAdvertisingUUID], options: nil)
         } else {
         }
     }
@@ -208,7 +211,7 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
             message = "Bluetooth LE is turned on and ready for communication."
             
             if (debug) {print(message)}
-            setTouchBarMessage("Ready")
+            setTouchBarMessage("Ready", color: NSColor.lightGray)
             self.keepScanning = true
             _ = Timer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
         }
@@ -221,27 +224,20 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
      
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         if (debug) {
-            NSLog("DEBUG: centralManager didDiscoverPeripheral - CBAdvertisementDataLocalNameKey is \"\(advertisementData[CBAdvertisementDataLocalNameKey])\"")
+            print("DEBUG: centralManager didDiscoverPeripheral - peripheral name is \"\(peripheral.name)\"")
         }
         // Retrieve the peripheral name from the advertisement data using the "kCBAdvDataLocalName" key
-        if let peripheralName = advertisementData[CBAdvertisementDataLocalNameKey] as? String {
-            if (debug) {
-                print("DEBUG: NEXT PERIPHERAL NAME: \(peripheralName)")
-                print("DEBUG: NEXT PERIPHERAL UUID: \(peripheral.identifier.uuidString)")
-            }
-            if peripheralName == blePeripheralName {
-                if (debug) {print("DEBUG: MAGICLIGHT FOUND! CONNECTING NOW!!!")}
-                // to save power, stop scanning for other devices
-                keepScanning = false
-                setTouchBarMessage("MagicLight")
-                
-                // save a reference of our peripheral
-                self.blePeripheral = peripheral
-                self.blePeripheral!.delegate = self
-                
-                // Connect to our peripheral
-                central.connect(self.blePeripheral!, options: nil)
-            }
+        if Device.Name == peripheral.name {
+            if (debug) {print("DEBUG: MAGICLIGHT FOUND! CONNECTING NOW!!!")}
+            // to save power, stop scanning for other devices
+            keepScanning = false
+            
+            // save a reference of our peripheral
+            self.blePeripheral = peripheral
+            self.blePeripheral!.delegate = self
+            
+            // Connect to our peripheral
+            central.connect(self.blePeripheral!, options: nil)
         }
     }
     
@@ -250,8 +246,8 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
      
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         if (debug) {print("DEBUG: SUCCESSFULLY CONNECTED TO MAGICLIGHT!!!")}
-        
-        setTouchBarMessage("Connected")
+        scanTimer?.invalidate()     // stop scanning timer
+        setTouchBarMessage("Connected", color: NSColor.green)
         self.scanButton.title = "Disconnect"
         
         // Now that we've successfully connected to the blePeripheral, let's discover the services.
@@ -263,7 +259,7 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
      
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         if (debug) {print("ERROR: CONNECTION TO MAGICLIGHT FAILED!!!")}
-        setTouchBarMessage("Error Conn")
+        setTouchBarMessage("Error Conn", color: NSColor.red)
         self.scanButton.title = "Connect"
     }
     
@@ -272,7 +268,7 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         if (debug) {print("DEBUG: DISCONNECTED FROM MAGICLIGHT!!!")}
-        setTouchBarMessage("Disconnected")
+        setTouchBarMessage("Disconnected", color: nil)
         self.scanButton.title = "Connect"
         if error != nil {
             if (debug) {print("ERROR: DISCONNECTION DETAILS: \(error!.localizedDescription)")}
@@ -322,11 +318,13 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
                 if (debug) {print("DEBUG: Discovered characteristics \(characteristics)")}
                 if characteristic.uuid == CBUUID(string: Device.LEDColorCharUUID) {
                     if (debug) {print("DEBUG: Discovered our characteristics")}
-                    ledcolorCharacteristic = characteristic
-                    ledcolorPeripheral = peripheral
-                    ledcolorDescriptor = characteristic.descriptors?[0]
+                    self.ledcolorCharacteristic = characteristic
+                    self.ledcolorPeripheral = peripheral
+                    self.ledcolorDescriptor = characteristic.descriptors?[0]
                     peripheral.readValue(for: characteristic)
                     LEDConnected = true
+                    setTouchBarMessage("MagicLight", color: NSColor.yellow)
+                    self.colorPicker.isEnabled = true
                 }
             }
         }

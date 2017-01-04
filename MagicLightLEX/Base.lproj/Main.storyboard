@@ -670,16 +670,10 @@
                                 </viewController>
                             </touchBarItem>
                             <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="9ys-2H-oPH"/>
-                            <colorPickerItem showsAlpha="NO" id="QOb-he-H6f">
-                                <connections>
-                                    <action selector="colorPicked:" target="B8D-0N-5wS" id="nBa-JN-X1s"/>
-                                </connections>
-                            </colorPickerItem>
-                            <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="Xfb-BA-khu"/>
                             <touchBarItem id="gmv-rE-8Q6" userLabel="Touch Bar Message">
                                 <viewController key="viewController" id="bib-uV-q7h">
                                     <textField key="view" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7s-og-KVU">
-                                        <rect key="frame" x="0.0" y="0.0" width="172" height="24"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="134" height="24"/>
                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" borderStyle="bezel" alignment="left" title=" Scanning" placeholderString="" drawsBackground="YES" usesSingleLineMode="YES" id="gAq-lP-hYX">
                                             <font key="font" usesAppearanceFont="YES"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -687,9 +681,14 @@
                                         </textFieldCell>
                                     </textField>
                                 </viewController>
-                                <size key="designTimeSize" width="172" height="24"/>
+                                <size key="designTimeSize" width="134" height="24"/>
                             </touchBarItem>
-                            <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="DH7-R1-jYb"/>
+                            <colorPickerItem showsAlpha="NO" id="QOb-he-H6f">
+                                <connections>
+                                    <action selector="colorPicked:" target="B8D-0N-5wS" id="nBa-JN-X1s"/>
+                                </connections>
+                            </colorPickerItem>
+                            <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="Eoi-uO-EJg"/>
                             <touchBarItem id="5Iz-D9-et1">
                                 <viewController key="viewController" id="rnM-N1-G7l">
                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sas-3R-iBC">
@@ -707,6 +706,7 @@
                         </touchBarItems>
                     </touchBar>
                     <connections>
+                        <outlet property="colorPicker" destination="QOb-he-H6f" id="kIR-yl-gwP"/>
                         <outlet property="messageOnTouchBar" destination="D7s-og-KVU" id="nJC-B6-bsk"/>
                         <outlet property="scanButton" destination="sas-3R-iBC" id="x5R-bs-Bwf"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>

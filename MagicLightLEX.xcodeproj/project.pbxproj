@@ -14,6 +14,7 @@
 		AE7134B31E179408001A9A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE7134B11E179408001A9A7C /* Main.storyboard */; };
 		AE7134BC1E17951D001A9A7C /* MyWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7134BA1E17951D001A9A7C /* MyWindowController.swift */; };
 		AE7134BF1E17AF14001A9A7C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7134BE1E17AF14001A9A7C /* Device.swift */; };
+		AE90EED01E1B7C22001F17DA /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE90EECF1E1B7C22001F17DA /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		AE7134BA1E17951D001A9A7C /* MyWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyWindowController.swift; sourceTree = "<group>"; };
 		AE7134BE1E17AF14001A9A7C /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Device.swift; path = ../Device.swift; sourceTree = "<group>"; };
 		AE90EECC1E1B57DB001F17DA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		AE90EECF1E1B7C22001F17DA /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE90EED01E1B7C22001F17DA /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +49,7 @@
 				AE90EECC1E1B57DB001F17DA /* README.md */,
 				AE7134AA1E179408001A9A7C /* MagicLightLEX */,
 				AE7134A91E179408001A9A7C /* Products */,
+				AE90EECE1E1B7C21001F17DA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +74,14 @@
 				AE5B09671E190F6A005050D1 /* Spectrum512@2x.png */,
 			);
 			path = MagicLightLEX;
+			sourceTree = "<group>";
+		};
+		AE90EECE1E1B7C21001F17DA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AE90EECF1E1B7C22001F17DA /* CoreBluetooth.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
