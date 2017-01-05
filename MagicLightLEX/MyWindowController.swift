@@ -40,6 +40,25 @@ extension NSColor {
     }
 }
 
+@available(OSX 10.12.0, *)
+extension NSTextField: NSAnimationDelegate {
+
+    public func rainbow(_ sender: Any) {
+        let animator1 = NSAnimation.init(duration: 10.0, animationCurve: NSAnimationCurve.linear)
+        animator1.frameRate = 10.0
+        animator1.animationBlockingMode = NSAnimationBlockingMode.nonblocking
+        animator1.delegate = self as NSAnimationDelegate?
+        for i in 0...100 {
+            animator1.addProgressMark(Float(Double(i)/100.0))
+        }
+        animator1.start()
+    }
+    
+    public func animation(_ animation: NSAnimation, didReachProgressMark progress: NSAnimationProgress) {
+        self.textColor = NSColor.init(hue: CGFloat(progress), saturation: 1.0, brightness: 0.8, alpha: 1.0)
+    }
+}
+
 @available(OSX 10.12.2, *)
 class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManagerDelegate, CBPeripheralDelegate {
     // MARK: Local variables
@@ -49,6 +68,8 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
     // define our scanning timers
     let timerScanInterval:TimeInterval = 10.0
     var scanTimer:Timer? = nil
+    
+    var tbAnim:NSViewAnimation? = nil
     
     var LEDConnected = false
     var lastTouchTime = Date()
@@ -79,6 +100,7 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
         self.messageOnTouchBar.stringValue = "Loading"
         self.window?.delegate = self
         self.colorPicker.isEnabled = false
+//        tbAnim = NSViewAnimation.init(duration: 2.0, animationCurve: NSAnimationCurve.easeInOut)
     }
 
     func windowWillClose(_ notification: Notification) {
@@ -180,6 +202,7 @@ class MyWindowController: NSWindowController, NSWindowDelegate, CBCentralManager
             // Start scanning again...
             if (debug) {print("DEBUG: RESUMING SCAN!")}
             setTouchBarMessage("Scanning...", color: NSColor.blue)
+            self.messageOnTouchBar.rainbow(self)
             if (scanTimer == nil) {
                 scanTimer = Timer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
                 RunLoop.main.add(scanTimer!, forMode: RunLoopMode.commonModes)

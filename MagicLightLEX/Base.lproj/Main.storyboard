@@ -672,8 +672,16 @@
                             <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="9ys-2H-oPH"/>
                             <touchBarItem id="gmv-rE-8Q6" userLabel="Touch Bar Message">
                                 <viewController key="viewController" id="bib-uV-q7h">
-                                    <textField key="view" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7s-og-KVU">
+                                    <textField key="view" wantsLayer="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7s-og-KVU">
                                         <rect key="frame" x="0.0" y="0.0" width="134" height="24"/>
+                                        <contentFilters>
+                                            <ciFilter name="CIHueAdjust">
+                                                <configuration>
+                                                    <real key="inputAngle" value="0.0"/>
+                                                    <null key="inputImage"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" borderStyle="bezel" alignment="left" title=" Scanning" placeholderString="" drawsBackground="YES" usesSingleLineMode="YES" id="gAq-lP-hYX">
                                             <font key="font" usesAppearanceFont="YES"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -713,6 +721,7 @@
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="Iub-4t-Gbz"/>
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
@@ -732,6 +741,14 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSo-rq-cVB">
                                 <rect key="frame" x="61" y="131" width="358" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <backgroundFilters>
+                                    <ciFilter name="CIHueAdjust">
+                                        <configuration>
+                                            <real key="inputAngle" value="0.0"/>
+                                            <null key="inputImage"/>
+                                        </configuration>
+                                    </ciFilter>
+                                </backgroundFilters>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="MagicLight LEX" id="ml3-vS-jTY">
                                     <font key="font" metaFont="system" size="42"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>

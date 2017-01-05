@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE0547691E1CEEE80050F732 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE0547681E1CEEE80050F732 /* QuartzCore.framework */; };
 		AE5B09681E190F6A005050D1 /* Spectrum512@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5B09671E190F6A005050D1 /* Spectrum512@2x.png */; };
 		AE7134AC1E179408001A9A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7134AB1E179408001A9A7C /* AppDelegate.swift */; };
 		AE7134AE1E179408001A9A7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7134AD1E179408001A9A7C /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AE0547681E1CEEE80050F732 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AE5B09671E190F6A005050D1 /* Spectrum512@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Spectrum512@2x.png"; sourceTree = "<group>"; };
 		AE7134A81E179408001A9A7C /* MagicLightLEX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagicLightLEX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE7134AB1E179408001A9A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE0547691E1CEEE80050F732 /* QuartzCore.framework in Frameworks */,
 				AE90EED01E1B7C22001F17DA /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +82,7 @@
 		AE90EECE1E1B7C21001F17DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AE0547681E1CEEE80050F732 /* QuartzCore.framework */,
 				AE90EECF1E1B7C22001F17DA /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
@@ -276,6 +280,7 @@
 				DEVELOPMENT_TEAM = B3N3RVAC3U;
 				INFOPLIST_FILE = MagicLightLEX/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iostation.MagicLightLEX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -290,6 +295,7 @@
 				DEVELOPMENT_TEAM = B3N3RVAC3U;
 				INFOPLIST_FILE = MagicLightLEX/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iostation.MagicLightLEX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
