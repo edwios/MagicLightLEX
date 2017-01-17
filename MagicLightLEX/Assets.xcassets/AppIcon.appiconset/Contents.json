@@ -15,7 +15,7 @@
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "Spectrum32-1.png",
+      "filename" : "Spectrum32.png",
       "scale" : "1x"
     },
     {
@@ -27,13 +27,13 @@
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "Spectrum128.png",
+      "filename" : "Spectrum64.png",
       "scale" : "1x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "Spectrum128@2x.png",
+      "filename" : "Spectrum64@2x.png",
       "scale" : "2x"
     },
     {
